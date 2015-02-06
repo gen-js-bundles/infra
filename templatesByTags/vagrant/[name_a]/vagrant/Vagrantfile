@@ -1,0 +1,45 @@
+<%
+  var server = entity;
+  var vagrant = server.tags.vagrant;
+
+  var dockers = [];
+  _.each(allEntities, function(entity) {
+    if(entity.tags != null && entity.tags.docker != null) {
+      dockers.push(entity);
+    }
+  });
+  var hasDocker = dockers.length > 0;
+%>
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+
+config.vm.define "$__server.name__$" do |base|
+  base.vm.box = "precise64"
+  base.vm.box_url = "http://files.vagrantup.com/precise64.box"
+
+  base.vm.hostname = "$__server.name__$"
+  base.vm.network :private_network, ip: "$__server.ip__$"
+  config.vm.provider "virtualbox" do |v|
+      v.memory = $__server.memory__$
+  end
+
+<% if(vagrant.sh != null) { %>
+
+  base.vm.provision :shell, :path => "provision.sh"
+
+<% } %>
+<% if(hasDocker) { %>
+
+  config.vm.synced_folder "../docker", "/home/vagrant/docker"
+  base.vm.provision :shell, :path => "docker.sh"
+
+<% } %>
+
+end
+
+end

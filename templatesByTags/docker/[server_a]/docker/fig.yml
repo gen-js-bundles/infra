@@ -1,0 +1,18 @@
+<%
+  var dockers = [];
+  _.each(allEntities, function(entity) {
+    if(entity.tags != null && entity.tags.docker != null) {
+      dockers.push(entity);
+    }
+  });
+  var hasDocker = dockers.length > 0;
+%>
+<%
+  each(dockers, function(entity) {
+%>
+<%= entity.name.a() %>:
+  image: <%= entity.name %>
+<%= Fig.fig(entity.tags.docker); %>
+<%
+  });
+%>
