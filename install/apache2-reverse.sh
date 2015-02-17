@@ -1,6 +1,6 @@
 sudo a2dissite default
 
-cat <<EOT >> /etc/apache2/sites-available/jenkins.conf
+cat <<EOT >> /etc/apache2/sites-available/<%=serverName%>.conf
 <VirtualHost *:<%=portOrigin%>>
 	ServerAdmin webmaster@localhost
 	ServerName <%=serverName%>
