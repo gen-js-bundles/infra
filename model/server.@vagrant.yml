@@ -1,0 +1,6 @@
+sh:
+  - install:
+      - nano
+      - locate
+      - docker
+      - fig
