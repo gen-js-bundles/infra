@@ -1,0 +1,6 @@
+from: ubuntu
+run:
+  install:
+    - mongodb
+cmd:
+  service mongod start
