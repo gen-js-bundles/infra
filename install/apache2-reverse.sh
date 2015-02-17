@@ -4,7 +4,7 @@ cat <<EOT >> /etc/apache2/sites-available/<%=serverName%>.conf
 <VirtualHost *:<%=portOrigin%>>
 	ServerAdmin webmaster@localhost
 	ServerName <%=serverName%>
-	ServerAlias ci
+	ServerAlias <%=serverName%>
 	ProxyRequests Off
 	<Proxy *>
 		Order deny,allow
