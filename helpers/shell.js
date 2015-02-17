@@ -34,7 +34,7 @@ module.exports = (function Shell() {
             if(addEndLine) {
                 this.out.newLine();
             }
-            out += elt;
+            this.out.print(elt);
             if(addEndLine) {
                 this.out.print(";");
             }
