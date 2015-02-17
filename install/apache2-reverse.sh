@@ -4,9 +4,9 @@ cat <<EOT >> /etc/apache2/sites-available/jenkins.conf
 line 1
 line 2
 
-<VirtualHost *:80>
+<VirtualHost *:<%=portOrigin%>>
 	ServerAdmin webmaster@localhost
-	ServerName ci.company.com
+	ServerName <%=serverName%>
 	ServerAlias ci
 	ProxyRequests Off
 	<Proxy *>
@@ -14,7 +14,7 @@ line 2
 		Allow from all
 	</Proxy>
 	ProxyPreserveHost on
-	ProxyPass / http://localhost:8080/ nocanon
+	ProxyPass / http://localhost:<%=portDest%>/ nocanon
 	AllowEncodedSlashes NoDecode
 </VirtualHost>
 EOT
