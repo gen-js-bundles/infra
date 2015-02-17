@@ -1,0 +1,17 @@
+server: server
+
+tags:
+  docker:
+    from: ubuntu
+    run:
+      install:
+        - tomcat
+    volume:
+      - /target
+    expose:
+      - 8080: 8080
+      - 22
+    links:
+      mongodb
+    cmd:
+      [ "/opt/tomcat/bin/startup.sh" ]
