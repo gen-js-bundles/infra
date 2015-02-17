@@ -1,0 +1,35 @@
+    paths:
+
+      /authors:
+        GET:
+          name: getAuthor
+          return: String
+
+      /authors/{authorId}:
+        GET:
+          name: getAuthors
+          params:
+            authorId:
+              type: String
+          return: List<Author>
+        PUT:
+          name: createAuthor
+          params:
+            authorId:
+              type: String
+          body:
+            author:
+              type: Author
+        POST:
+          name: updateAuthor
+          params:
+            authorId:
+              type: String
+          body:
+            author:
+              type: Author
+        DELETE:
+          name: deleteAuthor
+          params:
+            authorId:
+              type: String
