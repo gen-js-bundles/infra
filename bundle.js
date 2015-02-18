@@ -1,5 +1,5 @@
 module.exports = {
-	templatesByTags: ["templatesByTags"],
+	templatesDirs: ["templates"],
 	helpers: {
 		"Shell": "./helpers/shell.js",
 		"Docker": "./helpers/docker.js",
