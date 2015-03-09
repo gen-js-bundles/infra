@@ -3,7 +3,8 @@ var
   fs = require('fs'),
   path = require('path'),
   gfile = require('gfilesync'),
-  yaml = require('js-yaml');
+  yaml = require('js-yaml'),
+  mkdirp = require('mkdirp');
 
 module.exports = {
   do: function(data, callback) {
@@ -49,6 +50,7 @@ module.exports = {
         memory: answers.memory
       };
 
+      mkdirp.sync(path.join(process.cwd(),'model','@vagrant'));
       gfile.writeYaml(path.join(process.cwd(),'model','@vagrant','server.yml'), data);
 
       if(callback) {
