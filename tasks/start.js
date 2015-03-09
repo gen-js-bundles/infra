@@ -25,6 +25,7 @@ module.exports = {
         var outPath = path.join(process.cwd(),data.Genjsfile.config.outDir,'server','vagrant');
 
         data.cli.exec('vagrant up', {cwd: outPath})
+        /*
           .then(function() {
               var deferred = Q.defer();
               var questions = [
@@ -44,6 +45,7 @@ module.exports = {
               });
               return deferred.promise;
           })
+        */
           .then(function() {
             if(callback) {
               callback();
