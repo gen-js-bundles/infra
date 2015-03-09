@@ -41,7 +41,7 @@ module.exports = {
                   deferred.resolve();
                 }
               });
-              return deferred;
+              return deferred.promise;
           })
           .then(function() {
             if(callback) {
