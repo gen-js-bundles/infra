@@ -3,8 +3,7 @@ var
   fs = require('fs'),
   path = require('path'),
   gfile = require('gfilesync'),
-  yaml = require('js-yaml'),
-  mkdirp = require('mkdirp');
+  yaml = require('js-yaml');
 
 module.exports = {
   do: function(data, callback) {
