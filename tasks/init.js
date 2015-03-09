@@ -49,7 +49,7 @@ module.exports = {
         memory: answers.memory
       };
 
-      gfile.writeYaml(path.join(process.cwd(),'model','server.yml'), data);
+      gfile.writeYaml(path.join(process.cwd(),'model','@vagrant','server.yml'), data);
 
       if(callback) {
         callback();
