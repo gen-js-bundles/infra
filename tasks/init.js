@@ -74,9 +74,9 @@ module.exports = {
       gfile.writeYaml(path.join(process.cwd(),'model','server.yml'), data);
       
       var data = {
-        sh: {
+        sh: [{
           install: answers.install
-        }
+        }]
       };
       
       gfile.writeYaml(path.join(process.cwd(),'model','server.@vagrant.yml'), data);
