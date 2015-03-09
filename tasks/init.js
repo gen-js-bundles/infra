@@ -10,6 +10,28 @@ module.exports = {
 
     var questions = [
       {
+        type: 'checkbox',
+        name: 'install',
+        message: 'Which program to install in the VM ?',
+        choices: [{
+          name: 'nano',
+          value: 'nano',
+          checked: true
+        },{
+          name: 'locate',
+          value: 'locate',
+          checked: true
+        },{
+          name: 'docker',
+          value: 'docker',
+          checked: true
+        },{
+          name: 'docker-compose',
+          value: 'docker-compose',
+          checked: true
+        }]
+      },
+      {
         type: 'input',
         name: 'ip',
         message: 'IP Address',
@@ -51,7 +73,11 @@ module.exports = {
 
       gfile.writeYaml(path.join(process.cwd(),'model','server.yml'), data);
       
-      var data = {};
+      var data = {
+        sh: {
+          install: answers.install
+        }
+      };
       
       gfile.writeYaml(path.join(process.cwd(),'model','server.@vagrant.yml'), data);
 
