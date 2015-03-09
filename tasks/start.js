@@ -20,8 +20,8 @@ module.exports = {
 
       if(answers.start) {
         console.log('start');
-        // console.log(data);
-        // console.log(data.Genjsfile);
+        console.log(data);
+        console.log(data.Genjsfile);
         var outPath = path.join(process.cwd(),data.Genjsfile.config.outDir,'server','vagrant');
 
         data.cli.exec('vagrant up', {cwd: outPath})
