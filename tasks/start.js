@@ -40,7 +40,7 @@ module.exports = {
                 } else {
                   deferred.resolve();
                 }
-              }
+              });
               return deferred;
           })
           .then(function() {
