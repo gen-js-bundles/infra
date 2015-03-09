@@ -22,7 +22,7 @@ config.vm.define "$__current.name__$" do |base|
   base.vm.box_url = "http://files.vagrantup.com/precise64.box"
 
   base.vm.hostname = "$__current.name__$"
-  base.vm.network :private_network, ip: "$__curent.ip__$"
+  base.vm.network :private_network, ip: "$__current.ip__$"
   config.vm.provider "virtualbox" do |v|
       v.memory = $__current.memory__$
   end
