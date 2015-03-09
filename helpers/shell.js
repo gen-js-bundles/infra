@@ -98,9 +98,9 @@ module.exports = (function Shell() {
             this.installOne('curl', 'curl');
             this.out.println(this.read('docker.sh'));
         }
-        else if(eltName === 'fig') {
-            this.installOne('curl', 'curl');
-            this.out.println(this.read('fig.sh'));
+        else if(eltName === 'docker-compose') {
+            this.installOne('docker', 'docker');
+            this.out.println(this.read('docker-compose.sh'));
         }
         else if(eltName === 'java') {
             var data = {};
