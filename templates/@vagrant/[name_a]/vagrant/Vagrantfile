@@ -40,5 +40,3 @@ config.vm.define "$__current.name__$" do |base|
 <% } %>
 
 end
-
-end
