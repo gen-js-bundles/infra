@@ -1,6 +1,5 @@
 <%
-  var server = entity;
-  var vagrant = server.tags.vagrant;
+  var vagrant = current.tags.vagrant;
 
   var dockers = [];
   _.each(allEntities, function(entity) {
@@ -18,14 +17,14 @@ VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
-config.vm.define "$__server.name__$" do |base|
+config.vm.define "$__current.name__$" do |base|
   base.vm.box = "precise64"
   base.vm.box_url = "http://files.vagrantup.com/precise64.box"
 
-  base.vm.hostname = "$__server.name__$"
-  base.vm.network :private_network, ip: "$__server.ip__$"
+  base.vm.hostname = "$__current.name__$"
+  base.vm.network :private_network, ip: "$__curent.ip__$"
   config.vm.provider "virtualbox" do |v|
-      v.memory = $__server.memory__$
+      v.memory = $__current.memory__$
   end
 
 <% if(vagrant.sh != null) { %>
