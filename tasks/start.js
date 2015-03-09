@@ -1,4 +1,5 @@
 var
+  Q = require('q'),
   inquirer = require("inquirer"),
   fs = require('fs'),
   path = require('path'),
@@ -25,7 +26,7 @@ module.exports = {
 
         data.cli.exec('vagrant up', {cwd: outPath})
           .then(function() {
-              var deferred = q.deferred();
+              var deferred = Q.defer();
               var questions = [
                 {
                   type: 'confirm',
