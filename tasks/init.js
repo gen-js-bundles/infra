@@ -50,8 +50,11 @@ module.exports = {
         memory: answers.memory
       };
 
-      mkdirp.sync(path.join(process.cwd(),'model','@vagrant'));
-      gfile.writeYaml(path.join(process.cwd(),'model','@vagrant','server.yml'), data);
+      gfile.writeYaml(path.join(process.cwd(),'model','server.yml'), data);
+      
+      var data = {};
+      
+      gfile.writeYaml(path.join(process.cwd(),'model','server.@vagrant.yml'), data);
 
       if(callback) {
         callback();
