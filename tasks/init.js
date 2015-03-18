@@ -35,7 +35,7 @@ module.exports = {
         type: 'input',
         name: 'ip',
         message: 'IP Address',
-        default: '192.168.29.201'
+        default: '192.168.32.10'
       },
       {
         type: 'input',
