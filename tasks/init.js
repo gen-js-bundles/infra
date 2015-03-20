@@ -80,9 +80,6 @@ module.exports = {
       var data = {
         sh: [
           {
-            purge: ['openjdk-\*']
-          },
-          {
             install: answers.install
           }
         ]
