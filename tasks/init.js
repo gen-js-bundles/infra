@@ -29,6 +29,10 @@ module.exports = {
           name: 'docker-compose',
           value: 'docker-compose',
           checked: true
+        },{
+          name: 'jenkins',
+          value: 'jenkins',
+          checked: true
         }]
       },
       {
