@@ -11,6 +11,7 @@ module.exports = (function Shell() {
         this.out = new Output();
     };
     Shell.prototype.sh = function(elt) {
+        this.out = new Output();
         this.analyze(elt, true);
         return this.out.toString();
     };
@@ -46,9 +47,6 @@ module.exports = (function Shell() {
                 }
                 if(eltName2 == 'install') {
                     this.install(elt2, eltName2);
-                }
-                else if(eltName2 == 'purge') {
-                    this.purge(elt2, eltName2);
                 }
                 else if(eltName2 == 'apt') {
                     this.apt(elt2, eltName2);
@@ -187,13 +185,7 @@ module.exports = (function Shell() {
     };
     Shell.prototype.apt = function(elt, eltName) {
         if(typeof elt === 'string') {
-            if(elt == 'install') {
-                this.out.println('sudo apt-get install -y');
-            } else if(elt == 'purge') {
-                this.out.println('sudo apt-get purge -y');
-            } else {
-                this.out.println('sudo apt-get ' + elt);
-            }
+            this.out.println('sudo apt-get ' + elt);
         }
         else if(elt instanceof Array) {
             for(var i=0; i<elt.length; i++) {
