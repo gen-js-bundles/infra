@@ -138,6 +138,7 @@ module.exports = (function Shell() {
         }
         else if(eltName === 'jenkins') {
             this.installOne('apache2', 'apache2');
+            this.installOne('java','1.8');
             this.out.println(this.read('jenkins.sh'));
         }
         else if(eltName === 'mongodb') {
