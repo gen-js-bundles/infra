@@ -6,7 +6,7 @@ sudo apt-get install -y jenkins jenkins-cli
 
 # wait restart
 sudo service jenkins restart
-while netstat -lnt | awk '$4 ~ /:8080$/ {exit 1}'; do sleep 10; done
+while [[ `curl -sL -w "%{http_code}" "http://localhost:8080" -o /dev/null` != 200 ]]; do sleep 1; done
 
 # install plugin
 sudo jenkins-cli -s http://localhost:8080 install-plugin docker-build-step
