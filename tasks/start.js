@@ -7,6 +7,15 @@ var
 
 module.exports = {
   do: function(data, callback) {
+    
+    if(true) {
+      console.log('make :');
+      console.log('cd ../server/vagrant');
+      console.log('vagrant up');
+      return;
+    }
+    
+    
     // Start
     var questions = [
       {
