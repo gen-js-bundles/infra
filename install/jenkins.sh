@@ -4,10 +4,9 @@ sudo sh -c 'echo deb http://pkg.jenkins-ci.org/debian binary/ > /etc/apt/sources
 sudo apt-get update -y
 sudo apt-get install -y jenkins jenkins-cli
 
-# update jenkins
-#wget -q http://mirrors.jenkins-ci.org/war/latest/jenkins.war /usr/share/jenkins/jenkins.war
-
+# wait restart
 sudo service jenkins restart
+while netstat -lnt | awk '$4 ~ /:8080$/ {exit 1}'; do sleep 10; done
 
 # install plugin
 sudo jenkins-cli -s http://localhost:8080 install-plugin docker-build-step
