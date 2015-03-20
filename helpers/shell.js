@@ -47,6 +47,9 @@ module.exports = (function Shell() {
                 if(eltName2 == 'install') {
                     this.install(elt2, eltName2);
                 }
+                else if(eltName2 == 'purge') {
+                    this.purge(elt2, eltName2);
+                }
                 else if(eltName2 == 'apt') {
                     this.apt(elt2, eltName2);
                 }
@@ -186,6 +189,8 @@ module.exports = (function Shell() {
         if(typeof elt === 'string') {
             if(elt == 'install') {
                 this.out.println('sudo apt-get install -y');
+            } else if(elt == 'purge') {
+                this.out.println('sudo apt-get purge -y');
             } else {
                 this.out.println('sudo apt-get ' + elt);
             }
@@ -200,6 +205,18 @@ module.exports = (function Shell() {
                 var elt2 = elt[eltName2];
                 if(eltName2 === 'install') {
                     this.out.print('sudo apt-get install -y');
+                    if(elt2 instanceof Array) {
+                        for(var i=0; i<elt2.length; i++) {
+                            this.out.print(' ' + elt2[i]);
+                        }
+                    } else {
+                        for(var elt3Name in elt2) {
+                            this.out.print(' ' + elt3Name);
+                        }
+                    }
+                }
+                if(eltName2 === 'purge') {
+                    this.out.print('sudo apt-get purge -y');
                     if(elt2 instanceof Array) {
                         for(var i=0; i<elt2.length; i++) {
                             this.out.print(' ' + elt2[i]);
