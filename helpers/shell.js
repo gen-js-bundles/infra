@@ -133,6 +133,10 @@ module.exports = (function Shell() {
             this.installOne('java', 'java');
             this.out.println(this.read('maven.sh'));
         }
+        else if(eltName === 'jenkins') {
+            this.installOne('apache2', 'apache2');
+            this.out.println(this.read('jenkins.sh'));
+        }
         else if(eltName === 'mongodb') {
             var data = {};
             if(elt != null && elt != 'mongodb') {
