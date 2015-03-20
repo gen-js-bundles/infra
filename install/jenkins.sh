@@ -13,4 +13,5 @@ sudo jenkins-cli -s http://localhost:8080 install-plugin docker-build-step
 sudo jenkins-cli -s http://localhost:8080 install-plugin docker-build-publish
 sudo jenkins-cli -s http://localhost:8080 install-plugin github
 
+# restart jenkins
 sudo service jenkins restart
