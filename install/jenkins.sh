@@ -7,7 +7,9 @@ sudo apt-get install -y jenkins jenkins-cli
 # update jenkins
 #wget -q http://mirrors.jenkins-ci.org/war/latest/jenkins.war /usr/share/jenkins/jenkins.war
 
+sudo service jenkins restart
+
 # install plugin
-jenkins-cli -s http://localhost:8080 install-plugin docker-build-step
-jenkins-cli -s http://localhost:8080 install-plugin docker-build-publish
-jenkins-cli -s http://localhost:8080 install-plugin github
+sudo jenkins-cli -s http://localhost:8080 install-plugin docker-build-step
+sudo jenkins-cli -s http://localhost:8080 install-plugin docker-build-publish
+sudo jenkins-cli -s http://localhost:8080 install-plugin github
