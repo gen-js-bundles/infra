@@ -1,3 +1,6 @@
+# uninstall openjdk
+sudo apt-get purge -yq openjdk-\*
+
 <%
   if(version == '1.6') {
 %>
