@@ -87,19 +87,35 @@ var Task = (function() {
       if(eltId == 'id') {
         continue;
       }
-      if(docker[eltId] instanceof Array) {
-        console.log('  '+eltId,':');
-        for(var i=0; i<docker[eltId].length; i++) {
-          console.log('    - '+docker[eltId][i]);
+      if(eltId == 'expose') {
+        console.log('  expose:');
+        for(var i=0; i<docker.expose.length; i++) {
+          var expose = docker.expose[i];
+          if(typeof expose == 'string' || typeof expose == 'number') {
+            console.log('    container port: ' + expose);
+          }
+          else {
+            for(var exposeEltId in expose) {
+              console.log('    container port: ' + expose[exposeEltId] + ' -> host port: ' + exposeEltId);
+            }
+          }
         }
       }
-      else if(typeof docker[eltId] == 'string') {
-        console.log('  '+eltId,':',docker[eltId]);
-      }
       else {
-        console.log('  '+eltId,':');
-        for(var elt2Id in docker[eltId]) {
-          console.log('    '+elt2Id,':',docker[eltId][elt2Id]);
+        if (docker[eltId] instanceof Array) {
+          console.log('  ' + eltId, ':');
+          for (var i = 0; i < docker[eltId].length; i++) {
+            console.log('    - ' + docker[eltId][i]);
+          }
+        }
+        else if (typeof docker[eltId] == 'string') {
+          console.log('  ' + eltId, ':', docker[eltId]);
+        }
+        else {
+          console.log('  ' + eltId, ':');
+          for (var elt2Id in docker[eltId]) {
+            console.log('    ' + elt2Id, ':', docker[eltId][elt2Id]);
+          }
         }
       }
     }
@@ -276,8 +292,165 @@ var Task = (function() {
     ];
     inquirer.prompt(questions, function( answers ) {
       entity.tags.docker.from = answers.from;
-      callback(entity);
+      var docker = entity.tags.docker;
+
+      this.promiseDockerExpose(docker)
+        .then(function() {
+          callback(entity)
+        });
     }.bind(this));
+  };
+
+  Task.prototype.promiseDockerExpose = function(docker) {
+
+    var exposeInquirer = (function exposeInquirer(docker) {
+
+      var exposeChoices = [];
+      for(var exposeId in docker.expose) {
+        var expose = docker.expose[exposeId];
+        if(typeof expose == 'string' || typeof expose == 'number') {
+          exposeChoices.push({
+            name: 'Container port: ' + expose,
+            value: exposeId
+          })
+        }
+        else {
+          for(var exposeEltId in expose) {
+            exposeChoices.push({
+              name: 'Container port: ' + expose[exposeEltId] + ' -> Host port: ' + exposeEltId,
+              value: exposeId
+            })
+          }
+        }
+      }
+
+      var exposeActionChoices = [];
+      exposeActionChoices.push({
+        name: 'Exit',
+        value: null
+      });
+      exposeActionChoices.push(new inquirer.Separator());
+      exposeActionChoices.push(
+        {
+          name: 'Add expose',
+          value: 'add'
+        }
+      );
+      if(exposeChoices.length > 0) {
+        exposeActionChoices.push({
+          name: 'Remove expose',
+          value: 'remove'
+        });
+        exposeActionChoices.push(new inquirer.Separator());
+        for(var i=0; i<exposeChoices.length; i++) {
+          exposeActionChoices.push(exposeChoices[i]);
+        }
+      }
+
+      var exposeRemoveChoices = [];
+      exposeRemoveChoices.push({
+        name: 'Exit',
+        value: null
+      });
+      exposeRemoveChoices.push(new inquirer.Separator());
+      if(exposeChoices.length > 0) {
+        for(var i=0; i<exposeChoices.length; i++) {
+          exposeRemoveChoices.push(exposeChoices[i]);
+        }
+      }
+      var questions = [
+        {
+          type: 'list',
+          name: 'exposeAction',
+          message: 'Expose port action',
+          choices: exposeActionChoices
+        },
+        {
+          type: 'list',
+          name: 'exposeToRemove',
+          message: 'Expose port to remove',
+          when: function(answers) {
+            return answers.exposeAction == 'remove';
+          },
+          choices: exposeRemoveChoices
+        },
+        {
+          type: 'input',
+          name: 'exposeContainer',
+          message: 'Container port',
+          when: function(answers) {
+            return answers.exposeAction != null && answers.exposeAction !== 'remove' && answers.exposeName != '';
+          },
+          default: function(answers) {
+            if(answers.exposeAction !== 'add') {
+              var expose = docker.expose[answers.exposeAction];
+              if(typeof expose == 'string' || typeof expose == 'number') {
+                return expose;
+              }
+              else {
+                for(var exposeEltId in expose) {
+                  return expose[exposeEltId];
+                }
+              }
+            };
+          }
+        },
+        {
+          type: 'input',
+          name: 'exposeHost',
+          message: 'Host machine port',
+          when: function(answers) {
+            return answers.exposeAction != null && answers.exposeAction !== 'remove';
+          },
+          default: function(answers) {
+            if(answers.exposeAction !== 'add') {
+              var expose = docker.expose[answers.exposeAction];
+              if(typeof expose == 'string' || typeof expose == 'number') {
+                return '';
+              }
+              else {
+                for(var exposeEltId in expose) {
+                  return exposeEltId;
+                }
+              }
+            };
+          }
+        }
+      ];
+      var deferred = Q.defer();
+      inquirer.prompt(questions, function (answers) {
+        if(answers.exposeAction != null && answers.exposeName != '') {
+          if(answers.exposeAction == 'remove') {
+            docker.expose.splice(answers.exposeToRemove, 1);
+          }
+          else {
+            if(answers.exposeHost.trim() != '') {
+              var expose = {};
+              expose[answers.exposeHost] = answers.exposeContainer;
+            } else {
+              var expose = answers.exposeContainer;
+            }
+            if(answers.exposeAction == 'add') {
+              if(docker.expose == null) {
+                docker.expose = [];
+              }
+              docker.expose.push(expose);
+            }
+            else { // action : modify
+              docker.expose.splice(answers.exposeAction, 1, expose);
+            }
+          }
+          exposeInquirer(docker)
+            .then(function() {
+              deferred.resolve();
+            });
+        } else {
+          deferred.resolve();
+        }
+      });
+      return deferred.promise;
+    });
+    return exposeInquirer(docker);
   };
 
   return Task;
